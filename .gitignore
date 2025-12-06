@@ -1,12 +1,50 @@
+# Environment variables (contains API keys and secrets)
 .env
 .env.*
 !.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.hypothesis/
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
 .DS_Store
-__pycache__
-.idea
-KMS
-.venv
-.vscode
-*.egg-info
-.pytest_cache
-.ruff_cache
+
+# Linting and formatting
+.ruff_cache/
+.mypy_cache/
+
+# LiveKit
+KMS/
+
+# Logs
+*.log
+logs/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# OS
+Thumbs.db
+.DS_Store

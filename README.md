@@ -2,22 +2,191 @@
   <img src="./.github/assets/livekit-mark.png" alt="LiveKit logo" width="100" height="100">
 </a>
 
-# LiveKit Agents Starter - Python
+# ERP Voice Chat System 🎙️
 
-A complete starter project for building voice AI apps with [LiveKit Agents for Python](https://github.com/livekit/agents) and [LiveKit Cloud](https://cloud.livekit.io/).
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
+[![LiveKit](https://img.shields.io/badge/LiveKit-Agents-00ADD8)](https://livekit.io/)
+[![Flask](https://img.shields.io/badge/Flask-3.x-000000)](https://flask.palletsprojects.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-The starter project includes:
+A voice-enabled chat interface for Enterprise Resource Planning (ERP) systems built with [LiveKit Agents for Python](https://github.com/livekit/agents), Flask, and Supabase. This system enables administrators to interact with ERP data through natural voice conversations in **Spanish**, with capabilities to detect, report, and resolve duplicated data and inconsistencies.
 
-- A simple voice AI assistant, ready for extension and customization
-- A voice AI pipeline with [models](https://docs.livekit.io/agents/models) from OpenAI, Cartesia, and AssemblyAI served through LiveKit Cloud
-  - Easily integrate your preferred [LLM](https://docs.livekit.io/agents/models/llm/), [STT](https://docs.livekit.io/agents/models/stt/), and [TTS](https://docs.livekit.io/agents/models/tts/) instead, or swap to a realtime model like the [OpenAI Realtime API](https://docs.livekit.io/agents/models/realtime/openai)
-- Eval suite based on the LiveKit Agents [testing & evaluation framework](https://docs.livekit.io/agents/build/testing/)
-- [LiveKit Turn Detector](https://docs.livekit.io/agents/build/turns/turn-detector/) for contextually-aware speaker detection, with multilingual support
-- [Background voice cancellation](https://docs.livekit.io/home/cloud/noise-cancellation/)
-- Integrated [metrics and logging](https://docs.livekit.io/agents/build/metrics/)
-- A Dockerfile ready for [production deployment](https://docs.livekit.io/agents/ops/deployment/)
+Built for the **FailFast Hackathon** 🚀
 
-This starter app is compatible with any [custom web/mobile frontend](https://docs.livekit.io/agents/start/frontend/) or [SIP-based telephony](https://docs.livekit.io/agents/start/telephony/).
+## 🎥 Demo
+
+[Add your demo video or GIF here]
+
+## 📋 Table of Contents
+
+- [Features](#features)
+- [Architecture](#architecture)
+- [Technology Stack](#technology-stack)
+- [Quick Start](#quick-start)
+- [Database Management](#database-management)
+- [Development](#development)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Features
+
+- **🗣️ Voice-First Interface**: Natural voice conversations in Spanish using free, local models
+- **🔍 Duplicate Detection**: Automatically identify and merge duplicate records using Levenshtein distance
+- **⚠️ Inconsistency Analysis**: Detect and fix data quality issues (referential integrity, calculations, formats, business rules)
+- **💰 100% Free Stack**: Uses Ollama (Llama 3), Deepgram STT, and Cartesia TTS - all free tiers
+- **🔌 REST API**: Flask backend with comprehensive API for data operations
+- **⚡ Real-time Voice**: LiveKit Agents for low-latency voice interaction
+- **✅ Property-Based Testing**: Comprehensive test suite with Hypothesis for correctness guarantees
+
+## Architecture
+
+The system consists of three main layers:
+
+- **Voice Layer**: LiveKit Agent handling real-time audio streaming and conversation management
+- **Business Logic Layer**: Flask backend with duplicate detection and inconsistency analysis engines
+- **Data Layer**: Supabase (PostgreSQL) for ERP data and data quality tracking
+
+## Project Structure
+
+```
+src/
+├── agent.py              # LiveKit voice agent (main entry point)
+├── api/                  # Flask REST API
+│   ├── __init__.py
+│   └── app.py           # Flask application setup
+├── services/            # Business logic services
+│   └── __init__.py
+├── models/              # Data models
+│   └── __init__.py
+├── repositories/        # Data access layer
+│   └── __init__.py
+└── config.py           # Configuration management
+
+.kiro/specs/erp-voice-chat/  # Feature specification
+├── requirements.md      # Requirements document
+├── design.md           # Design document
+└── tasks.md            # Implementation tasks
+
+tests/                  # Test suite
+└── test_agent.py
+
+SETUP.md               # Detailed setup instructions
+```
+
+## 🚀 Quick Start
+
+See [QUICK_START.md](QUICK_START.md) for a quick guide or [SETUP.md](SETUP.md) for detailed installation instructions.
+
+### Example Voice Commands (in Spanish)
+
+```
+🗣️ "Muéstrame todos los clientes"
+   → Shows all customers in the database
+
+🗣️ "Detecta duplicados en la tabla de clientes"
+   → Identifies duplicate customer records
+
+🗣️ "Busca inconsistencias en los pedidos"
+   → Finds data quality issues in orders
+
+🗣️ "Combina los duplicados del primer grupo"
+   → Merges duplicate records
+
+🗣️ "Corrige la inconsistencia de cálculo"
+   → Fixes calculation errors
+```
+
+### 1. Install Dependencies
+
+```bash
+uv sync
+```
+
+### 2. Install Ollama and Pull Llama 3
+
+```bash
+# Install Ollama (see SETUP.md for platform-specific instructions)
+ollama pull llama3
+```
+
+### 3. Configure Environment
+
+```bash
+cp .env.example .env.local
+# Edit .env.local with your LiveKit and Supabase credentials
+```
+
+### 4. Run the Application
+
+Start the Flask backend:
+```bash
+uv run python -m src.api.app
+```
+
+Start the LiveKit agent:
+```bash
+uv run python src/agent.py dev
+```
+
+## Technology Stack
+
+### Backend
+- **Python 3.11+**: Primary programming language
+- **Flask 3.x**: Web framework for REST APIs
+- **Supabase**: PostgreSQL database service
+- **Hypothesis**: Property-based testing framework
+
+### Voice AI Stack (100% Free)
+- **LiveKit Agents**: Voice AI framework
+- **Ollama + Llama 3.1 (8B)**: Free, local LLM with function calling support
+- **Deepgram Nova-2**: Free tier speech-to-text (Spanish)
+- **Cartesia**: Free tier text-to-speech (Spanish voices)
+
+### Data Quality
+- **Levenshtein Distance**: Fuzzy string matching for duplicate detection
+- **Custom Analyzers**: Referential integrity, calculation validation, format checking
+
+## Database Management
+
+The project includes scripts for managing sample ERP data with intentional duplicates and inconsistencies for testing.
+
+### Seed Sample Data
+
+Create sample data including customers, products, orders, and order items:
+```bash
+uv run python scripts/seed_sample_data.py
+```
+
+### Reset Database
+
+Clear all data from ERP and data quality tables:
+```bash
+uv run python scripts/reset_database.py
+```
+
+### Reset and Seed (Recommended)
+
+Clear all data and seed fresh sample data in one command:
+```bash
+uv run python scripts/reset_and_seed.py --confirm
+```
+
+See [scripts/README.md](scripts/README.md) for detailed documentation on the sample data structure and testing scenarios.
+
+## Development
+
+This project uses the `uv` package manager and follows test-driven development practices.
+
+Run tests:
+```bash
+uv run pytest
+```
+
+Format code:
+```bash
+uv run ruff format
+uv run ruff check
+```
 
 ## Coding agents and MCP
 
