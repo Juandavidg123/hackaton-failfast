@@ -457,7 +457,7 @@ Recuerda: Estás aquí para hacer que la gestión de datos ERP sea más accesibl
 
                 # Handle API errors
                 if response.status_code != 200:
-                    error_data = await response.json() if response.text else {}
+                    error_data = response.json() if response.text else {}
                     error_message = error_data.get(
                         "message", "Error desconocido al consultar datos"
                     )
@@ -467,7 +467,7 @@ Recuerda: Estás aquí para hacer que la gestión de datos ERP sea más accesibl
                     )
 
                 # Parse successful response
-                data = await response.json()
+                data = response.json()
                 
                 # Reset connection failure counter on success
                 self.connection_failures = 0
